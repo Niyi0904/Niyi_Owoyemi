@@ -46,7 +46,7 @@ const projects = [
   },
   {
     title: "My Portfolio",
-    description: "A Porfolio site thta shocases my skill, and ability in Front-end Engineering",
+    description: "A Porfolio site that showcases my skills, and ability in Front-end Engineering",
     tags: ["Next.js", "Typescript", "Node.js", "Framer Motion"],
     link: "/",
     github: "https://github.com/Niyi0904/todo_list.git",
