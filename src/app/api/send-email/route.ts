@@ -2,8 +2,26 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+const allowedOrigins = ['https://niyi-owoyemi.vercel.app', 'http://localhost:3000', 'https://niyi-owoyemi-niyi0904s-projects.vercel.app/', 'https://niyi-owoyemi-3ch3zv6g0-niyi0904s-projects.vercel.app/'];
+
+export async function OPTIONS() {
+  const response = new NextResponse(null, { status: 204 });
+  response.headers.set('Access-Control-Allow-Origin', allowedOrigins.join(','));
+  response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+  response.headers.set('Access-Control-Max-Age', '86400');
+  return response;
+}
 
 export async function POST(request: Request) {
+  const origin = request.headers.get('origin') || '';
+  if (!allowedOrigins.includes(origin)) {
+    return new NextResponse(JSON.stringify({ error: 'Origin not allowed' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
     const body = await request.json();
     
