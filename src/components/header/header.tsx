@@ -35,7 +35,7 @@ export default function Header() {
                                 <AiFillHome />
                                 <span >Home</span>
                             </NavLink>
-                            <NavLink href='/#projects' onclick={() => handleCurrentSection('/#projects')}>
+                            <NavLink href='/#projects' onclick={() =>  handleCurrentSection('/#projects')}>
                                 <FaFolderOpen/>
                                 <span>Projects</span>
                             </NavLink>

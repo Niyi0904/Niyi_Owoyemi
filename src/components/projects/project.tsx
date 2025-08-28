@@ -5,6 +5,22 @@ import {FaGithub} from "react-icons/fa";
 
 const projects = [
   {
+    title: "Soiress $ Teepees",
+    description: "A Feature that include live message updates, typing indicators, and user authentication via Firebase.",
+    tags: ["Next.js", "Typescript", "Tailwind", "Mysql", "Sequelize"],
+    link: "https://soiress-and-teepees.vercel.app/",
+    github: "https://github.com/Niyi0904/soiress_and_teepees.git",
+    image: "https://i.ibb.co/Q7mg2WYQ/Screenshot-15.png",
+  },
+  {
+    title: "Nails by Ronnie",
+    description: "Nails by Ronnie is an intuitive and stylish web application designed to streamline the nail care experience for both clients and nail technicians. Built for convenience, personalization, and beauty, it offers a seamless platform where users can: Book Appointments Easily – Schedule sessions with your favorite nail tech in just a few clicks,",
+    tags: ["Next.js", "Typescript", "Tailwind", "Firebase"],
+    link: "https://nails-by-ronnie.vercel.app/",
+    github: "https://github.com/Niyi0904/nails_by_ronnie.git",
+    image: "https://i.ibb.co/Q7mg2WYQ/Screenshot-15.png",
+  },
+  {
     title: "Chat Application",
     description: "A Feature that include live message updates, typing indicators, and user authentication via Firebase.",
     tags: ["React", "JavaScript", "Tailwind", "Socket.io"],

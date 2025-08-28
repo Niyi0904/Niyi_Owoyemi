@@ -7,8 +7,8 @@ const nextjsSkills = [
     { 
       name: "Next.js", 
       icon: <SiNextdotjs className="text-black dark:text-white text-2xl" />,
-      level: 50,
-      projects: 1,
+      level: 80,
+      projects: 3,
       description: "SSR, SSG, API Routes, and App Router"
     },
     { 
@@ -28,36 +28,36 @@ const nextjsSkills = [
     { 
       name: "TypeScript", 
       icon: <SiTypescript className="text-blue-600 text-2xl" />,
-      level: 50,
-      projects: 1,
+      level: 70,
+      projects: 3,
       description: "Type-safe development"
     },
     { 
       name: "Tailwind CSS", 
       icon: <SiTailwindcss className="text-cyan-400 text-2xl" />,
-      level: 88,
-      projects: 6,
+      level: 90,
+      projects: 8,
       description: "Utility-first CSS"
     },
     { 
       name: "Firebase", 
       icon: <SiFirebase className="text-yellow-500 text-2xl" />,
-      level: 75,
-      projects: 3,
+      level: 80,
+      projects: 4,
       description: "Authentication and Firestore"
     },
     { 
       name: "MySQL", 
       icon: <SiMysql className="text-blue-600 text-2xl" />,
       level: 75,
-      projects: "1 (In Progress)",
+      projects: "1",
       description: "Database design and queries"
     },
     { 
       name: "Sequelize", 
       icon: <SiSequelize className="text-blue-400 text-2xl" />,
-      level: 60,
-      projects: "1 (In Progress)",
+      level: 70,
+      projects: "1",
       description: "ORM for Node.js"
     },
     { 
@@ -70,8 +70,8 @@ const nextjsSkills = [
     { 
       name: "Node.js", 
       icon: <FaNodeJs className="text-green-500 text-2xl" />,
-      level: 50,
-      projects: 1,
+      level: 65,
+      projects: 2,
       description: "Backend development"
     }
   ];
