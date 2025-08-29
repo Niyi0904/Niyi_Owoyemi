@@ -18,7 +18,7 @@ const projects = [
     tags: ["Next.js", "Typescript", "Tailwind", "Firebase"],
     link: "https://nails-by-ronnie.vercel.app/",
     github: "https://github.com/Niyi0904/nails_by_ronnie.git",
-    image: "https://i.ibb.co/Q7mg2WYQ/Screenshot-15.png",
+    image: "https://i.ibb.co/ZrgfwKh/Screenshot-16.png",
   },
   {
     title: "Chat Application",
