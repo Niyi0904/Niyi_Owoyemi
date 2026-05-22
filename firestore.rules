@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Public read collections ───────────────────────────────────────────────
+    // Anyone can read portfolio content — no auth required
+    match /projects/{id} {
+      allow read: if true;
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    match /skills/{id} {
+      allow read: if true;
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    match /experience/{id} {
+      allow read: if true;
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    match /testimonials/{id} {
+      allow read: if true;
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    match /blog/{id} {
+      allow read: if resource.data.draft == false || (request.auth != null && isAdmin());
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    match /content/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    // ── Contact messages — write-only for public, read for admin ─────────────
+    match /messages/{id} {
+      allow create: if true;  // Anyone can submit a contact form
+      allow read, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // ── Admin-only ────────────────────────────────────────────────────────────
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+  }
+}
