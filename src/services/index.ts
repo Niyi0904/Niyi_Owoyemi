@@ -11,11 +11,10 @@ export const projectsService = {
   getAll: () =>
     fetchCollection<Project>("projects", [orderBy("order", "asc")]),
 
-  getFeatured: () =>
-    fetchCollection<Project>("projects", [
-      where("featured", "==", true),
-      orderBy("order", "asc"),
-    ]),
+  getFeatured: async () => {
+    const items = await fetchCollection<Project>("projects", [where("featured", "==", true)]);
+    return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  },
 
   getBySlug: (slug: string) =>
     fetchByField<Project>("projects", "slug", slug),
@@ -32,11 +31,10 @@ export const skillsService = {
   getAll: () =>
     fetchCollection<Skill>("skills", [orderBy("order", "asc")]),
 
-  getByCategory: (category: string) =>
-    fetchCollection<Skill>("skills", [
-      where("category", "==", category),
-      orderBy("order", "asc"),
-    ]),
+  getByCategory: async (category: string) => {
+    const items = await fetchCollection<Skill>("skills", [where("category", "==", category)]);
+    return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  },
 };
 
 // ─── Experience ───────────────────────────────────────────────────────────────
@@ -50,20 +48,22 @@ export const testimonialsService = {
   getAll: () =>
     fetchCollection<Testimonial>("testimonials", [orderBy("order", "asc")]),
 
-  getFeatured: () =>
-    fetchCollection<Testimonial>("testimonials", [
-      where("featured", "==", true),
-      orderBy("order", "asc"),
-    ]),
+  getFeatured: async () => {
+    const items = await fetchCollection<Testimonial>("testimonials", [where("featured", "==", true)]);
+    return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  },
 };
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
 export const blogService = {
-  getAll: () =>
-    fetchCollection<BlogPost>("blog", [
-      where("draft", "==", false),
-      orderBy("publishedAt", "desc"),
-    ]),
+  getAll: async () => {
+    const items = await fetchCollection<BlogPost>("blog", [where("draft", "==", false)]);
+    return items.sort((a, b) => {
+      const aDate = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const bDate = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      return bDate - aDate;
+    });
+  },
 
   getBySlug: (slug: string) =>
     fetchByField<BlogPost>("blog", "slug", slug),
