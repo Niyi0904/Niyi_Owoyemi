@@ -1,11 +1,21 @@
-// next.config.ts
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['ibb.co', 'i.ibb.co'], // Allow images from ImgBB
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        pathname: "/**",
+      },
+      // Temporary: keep ibb.co until all images migrated to Firebase Storage
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+        pathname: "/**",
+      },
+    ],
   },
-  // Other Next.js config options...
-}
+};
 
-export default nextConfig
+export default nextConfig;
