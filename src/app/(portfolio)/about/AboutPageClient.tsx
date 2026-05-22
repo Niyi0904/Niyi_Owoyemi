@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useAboutContent } from "@/hooks/useFirestore";
-import { useTheme } from "@/context/ThemeContext";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { Skeleton, SkeletonText } from "@/components/ui/Skeleton";
@@ -30,7 +29,11 @@ const WHAT_I_DO = [
 
 export function AboutPageClient() {
   const { data: about, isLoading } = useAboutContent();
-  const { isDark } = useTheme();
+  const stats = STATS.map((stat) =>
+    stat.label === "Years Experience" && about?.yearsExp != null
+      ? { ...stat, value: `${about.yearsExp}+` }
+      : stat
+  );
 
   return (
     <div>
@@ -66,7 +69,7 @@ export function AboutPageClient() {
                   <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary to-accent blur-xl opacity-20 scale-105" />
                   <div className="relative rounded-3xl overflow-hidden ring-4 ring-primary/20 aspect-[4/5]">
                     <Image
-                      src="/Myimage.jpg"
+                      src={about?.profileImage ?? "/Myimage.jpg"}
                       alt="Owoyemi Niyi"
                       fill
                       className="object-cover"
@@ -158,7 +161,7 @@ export function AboutPageClient() {
             viewport={viewport}
             className="grid grid-cols-2 md:grid-cols-4 gap-6"
           >
-            {STATS.map((stat) => (
+            {stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 variants={staggerItem}

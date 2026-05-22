@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useFeaturedTestimonials } from "@/hooks/useFirestore";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getInitials } from "@/lib/utils";
@@ -55,9 +56,11 @@ export function TestimonialsSection() {
               </p>
               <div className="flex flex-col items-center gap-2">
                 {current.avatarUrl ? (
-                  <img
+                  <Image
                     src={current.avatarUrl}
                     alt={current.name}
+                    width={56}
+                    height={56}
                     className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
                   />
                 ) : (

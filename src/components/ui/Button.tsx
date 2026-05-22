@@ -47,10 +47,12 @@ export function Button(props: ButtonProps) {
   const classes = cn(base, variantStyles[variant], sizeStyles[size], className);
 
   if (props.as === "a") {
-    const { as: _as, ...anchorProps } = rest as ButtonAsAnchor;
+    const anchorProps = rest as ButtonAsAnchor;
+    delete (anchorProps as { as?: unknown }).as;
     return <a className={classes} {...anchorProps} />;
   }
 
-  const { as: _as, ...buttonProps } = rest as ButtonAsButton;
+  const buttonProps = rest as ButtonAsButton;
+  delete (buttonProps as { as?: unknown }).as;
   return <button className={classes} {...buttonProps} />;
 }

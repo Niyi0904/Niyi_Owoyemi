@@ -4,15 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
+import { useHeroContent, useSocialLinks } from "@/hooks/useFirestore";
 import { staggerContainer, staggerItem, slideRight } from "@/animations/variants";
 import { RiDownloadLine, RiArrowRightLine, RiGithubLine, RiLinkedinBoxLine, RiTwitterXLine } from "react-icons/ri";
 import { SOCIAL_LINKS } from "@/constants";
-
-const SOCIAL = [
-  { href: SOCIAL_LINKS.github,   icon: RiGithubLine,      label: "GitHub"   },
-  { href: SOCIAL_LINKS.linkedin, icon: RiLinkedinBoxLine, label: "LinkedIn" },
-  { href: SOCIAL_LINKS.twitter,  icon: RiTwitterXLine,    label: "Twitter"  },
-];
 
 const TECH_BADGES = [
   "Next.js", "TypeScript", "React", "Firebase", "Tailwind CSS", "Framer Motion",
@@ -20,6 +15,28 @@ const TECH_BADGES = [
 
 export function HeroSection() {
   const { isDark } = useTheme();
+  const { data: hero } = useHeroContent();
+  const { data: social } = useSocialLinks();
+
+  const socialLinks = { ...SOCIAL_LINKS, ...social };
+  const name = hero?.name ?? "Owoyemi Niyi";
+  const title =
+    hero?.title ??
+    "Frontend Engineer - Building fast, beautiful web experiences";
+  const subtitle =
+    hero?.subtitle ??
+    "I specialise in crafting scalable React and Next.js applications with clean architecture, polished UI, and seamless user experiences. Based in Lagos, Nigeria.";
+  const profileImage =
+    (isDark && hero?.profileImageDark) || hero?.profileImage || "/Myimage.jpg";
+  const primaryCtaText = hero?.primaryCtaText ?? "View My Work";
+  const primaryCtaUrl = hero?.primaryCtaUrl ?? "/projects";
+  const secondaryCtaText = hero?.secondaryCtaText ?? "Download Resume";
+  const secondaryCtaUrl = hero?.secondaryCtaUrl ?? "/resume";
+  const socialItems = [
+    { href: socialLinks.github, icon: RiGithubLine, label: "GitHub" },
+    { href: socialLinks.linkedin, icon: RiLinkedinBoxLine, label: "LinkedIn" },
+    { href: socialLinks.twitter, icon: RiTwitterXLine, label: "Twitter" },
+  ];
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden gradient-hero">
@@ -50,50 +67,46 @@ export function HeroSection() {
               variants={staggerItem}
               className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-heading mb-4"
             >
-              Hi, I&apos;m{" "}
-              <span className="gradient-text block">Owoyemi</span>
-              <span className="gradient-text">Niyi</span>
+              {hero?.greeting ?? "Hi, I'm"}{" "}
+              <span className="gradient-text block">{name}</span>
             </motion.h1>
 
             <motion.p
               variants={staggerItem}
               className="text-xl sm:text-2xl font-medium text-muted mb-6"
             >
-              Frontend Engineer &mdash; Building{" "}
-              <span className="text-primary font-semibold">fast</span>,{" "}
-              <span className="text-accent font-semibold">beautiful</span>{" "}
-              web experiences
+              {title}
             </motion.p>
 
             <motion.p
               variants={staggerItem}
               className="text-body text-lg leading-relaxed mb-10 max-w-lg"
             >
-              I specialise in crafting scalable React and Next.js applications with clean architecture, polished UI, and seamless user experiences. Based in Lagos, Nigeria.
+              {subtitle}
             </motion.p>
 
             {/* CTAs */}
             <motion.div variants={staggerItem} className="flex flex-wrap gap-4 mb-10">
               <Link
-                href="/projects"
+                href={primaryCtaUrl}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark transition-all duration-200 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
               >
-                View My Work
+                {primaryCtaText}
                 <RiArrowRightLine className="w-5 h-5" />
               </Link>
               <a
-                href="/resume"
+                href={secondaryCtaUrl}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary-light dark:hover:bg-primary/10 transition-all duration-200"
               >
                 <RiDownloadLine className="w-5 h-5" />
-                Download Resume
+                {secondaryCtaText}
               </a>
             </motion.div>
 
             {/* Social links */}
             <motion.div variants={staggerItem} className="flex items-center gap-4">
               <span className="text-sm text-muted font-medium">Find me on</span>
-              {SOCIAL.map(({ href, icon: Icon, label }) => (
+              {socialItems.map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}
                   href={href}
@@ -120,7 +133,7 @@ export function HeroSection() {
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary via-accent to-primary-dark blur-2xl opacity-20 scale-110" />
               <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden ring-4 ring-primary/20">
                 <Image
-                  src="/Myimage.jpg"
+                  src={profileImage}
                   alt="Owoyemi Niyi — Frontend Engineer" 
                   fill
                   className="object-cover"

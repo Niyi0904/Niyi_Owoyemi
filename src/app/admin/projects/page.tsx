@@ -1,120 +1,67 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCollection, deleteDocument } from "@/lib/firebase/firestore";
-import type { Project } from "@/types";
-import { RiAddLine } from "react-icons/ri";
-import { ProjectForm } from "@/components/admin/forms/ProjectForm";
-import { DataTable, type Column } from "@/components/admin/DataTable";
-import { Button } from "@/components/ui/Button";
+import {
+  AdminCollectionPage,
+  type AdminColumnConfig,
+  type AdminRecord,
+} from "@/components/admin/AdminCollectionPage";
+import type { AdminFieldConfig } from "@/components/admin/AdminRecordForm";
 
-/* ─── Column definitions ─────────────────────────────────────────────────────── */
+const fields: AdminFieldConfig[] = [
+  { name: "title", label: "Title", type: "text", required: true },
+  { name: "slug", label: "Slug", type: "text", required: true, placeholder: "my-project" },
+  { name: "tagline", label: "Tagline", type: "text", required: true },
+  { name: "status", label: "Status", type: "select", required: true, defaultValue: "wip", options: [
+    { label: "Live", value: "live" },
+    { label: "In progress", value: "wip" },
+    { label: "Archived", value: "archived" },
+  ] },
+  { name: "featured", label: "Featured", type: "checkbox", defaultValue: false },
+  { name: "order", label: "Order", type: "number", defaultValue: 0 },
+  { name: "description", label: "Description", type: "textarea", required: true, rows: 5 },
+  { name: "problem", label: "Problem", type: "textarea", rows: 4 },
+  { name: "solution", label: "Solution", type: "textarea", rows: 4 },
+  { name: "tags", label: "Tags", type: "tags", required: true, placeholder: "React, Next.js, Firebase" },
+  { name: "liveUrl", label: "Live URL", type: "url" },
+  { name: "githubUrl", label: "GitHub URL", type: "url" },
+  { name: "coverImage", label: "Cover image", type: "image", required: true },
+  { name: "images", label: "Gallery images", type: "images", helper: "Optional screenshots. One URL per line." },
+];
 
-const columns: Column<Project>[] = [
-  {
-    key: "title",
-    label: "Title",
-    render: (val) => <span className="font-medium">{String(val)}</span>,
-  },
+const columns: AdminColumnConfig<AdminRecord>[] = [
+  { key: "title", label: "Title" },
   {
     key: "status",
     label: "Status",
-    render: (val) => {
-      const status = String(val);
-      const style =
-        status === "live"
-          ? "bg-green-500/20 text-green-400"
-          : status === "wip"
-            ? "bg-amber-500/20 text-amber-400"
-            : "bg-slate-500/20 text-slate-400";
-      return (
-        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${style}`}>
-          {status}
-        </span>
-      );
-    },
+    render: (item) => (
+      <span className="capitalize text-xs font-semibold px-2 py-1 rounded-full bg-slate-700 text-slate-200">
+        {String(item.status ?? "wip")}
+      </span>
+    ),
   },
   {
     key: "featured",
     label: "Featured",
-    render: (val) => (
-      <span
-        className={`text-xs font-semibold px-2 py-1 rounded-full ${
-          val ? "bg-violet-500/20 text-violet-400" : "bg-slate-500/20 text-slate-400"
-        }`}
-      >
-        {val ? "Yes" : "No"}
+    render: (item) => (
+      <span className={item.featured ? "text-violet-300" : "text-slate-500"}>
+        {item.featured ? "Yes" : "No"}
       </span>
     ),
   },
+  { key: "order", label: "Order" },
 ];
 
-/* ─── Page ────────────────────────────────────────────────────────────────────── */
-
 export default function AdminProjectsPage() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const { data: projects = [], isLoading, refetch } = useQuery({
-    queryKey: ["admin-projects"],
-    queryFn: () => fetchCollection<Project>("projects", []),
-  });
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this project?")) return;
-    try {
-      await deleteDocument("projects", id);
-      refetch();
-    } catch (error) {
-      alert("Failed to delete project");
-      console.error(error);
-    }
-  };
-
-  const handleCloseForm = () => {
-    setShowForm(false);
-    setSelectedProject(null);
-    refetch();
-  };
-
   return (
-    <div>
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-1">Projects</h1>
-          <p className="text-slate-400">Manage your portfolio projects</p>
-        </div>
-        <Button
-          onClick={() => {
-            setSelectedProject(null);
-            setShowForm(true);
-          }}
-          className="bg-violet-600 hover:bg-violet-700 text-white flex items-center gap-2"
-        >
-          <RiAddLine className="w-4 h-4" /> New Project
-        </Button>
-      </div>
-
-      {showForm && (
-        <ProjectForm project={selectedProject} onClose={handleCloseForm} />
-      )}
-
-      {!showForm && (
-        <DataTable<Project>
-          data={projects}
-          columns={columns}
-          onEdit={(project) => {
-            setSelectedProject(project);
-            setShowForm(true);
-          }}
-          onDelete={handleDelete}
-          isLoading={isLoading}
-          searchPlaceholder="Search projects…"
-          emptyMessage="No projects yet"
-          emptySubMessage="Create your first one!"
-        />
-      )}
-    </div>
+    <AdminCollectionPage
+      title="Projects"
+      description="Create, update, and remove portfolio projects."
+      collectionName="projects"
+      fields={fields}
+      columns={columns}
+      newItemLabel="New project"
+      emptyMessage="No projects yet."
+      sortBy="order"
+    />
   );
 }
-

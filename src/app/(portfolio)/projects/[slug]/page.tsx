@@ -33,7 +33,7 @@ export default function ProjectDetailPage({
       <div className="text-center py-32">
         <p className="text-6xl mb-4">🔍</p>
         <h2 className="font-display text-2xl font-bold text-heading mb-3">Project Not Found</h2>
-        <p className="text-muted mb-8">This project doesn't exist or has been removed.</p>
+        <p className="text-muted mb-8">This project does not exist or has been removed.</p>
         <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold">
           <RiArrowLeftLine /> Back to Projects
         </Link>

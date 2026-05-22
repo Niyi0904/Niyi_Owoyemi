@@ -40,7 +40,7 @@ export default function HeroSection () {
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, x: 30, type: 'spring' }} // Start off-screen to the right
+                    initial={{ opacity: 0, x: 30 }} // Start off-screen to the right
                     animate={{ opacity: 1, x: 0 }}  // Slide in to normal position
                     transition={{ 
                     duration: 0.5,

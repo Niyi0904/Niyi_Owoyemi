@@ -4,6 +4,7 @@ import {
   getDocs,
   getDoc,
   addDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
   query,
@@ -64,6 +65,22 @@ export async function addDocument<T extends object>(
 }
 
 // ─── Generic update ───────────────────────────────────────────────────────────
+export async function setDocument<T extends object>(
+  collectionName: string,
+  docId: string,
+  data: T,
+  merge = true
+): Promise<void> {
+  await setDoc(
+    doc(db, collectionName, docId),
+    {
+      ...data,
+      updatedAt: serverTimestamp(),
+    },
+    { merge }
+  );
+}
+
 export async function updateDocument<T extends object>(
   collectionName: string,
   docId: string,

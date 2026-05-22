@@ -44,4 +44,5 @@ export const SKILL_CATEGORIES = [
   { key: "backend",  label: "Backend"   },
   { key: "database", label: "Database"  },
   { key: "tools",    label: "Tools"     },
+  { key: "design",   label: "Design"    },
 ] as const;

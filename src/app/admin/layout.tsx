@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAdminAuth } from "@/context/AdminAuthContext";
 import { AdminNavbar } from "@/components/admin/AdminNavbar";
 
@@ -11,13 +11,19 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, isAdmin, loading } = useAdminAuth();
+  const isLoginPage = pathname === "/admin";
 
   useEffect(() => {
-    if (!loading && (!user || !isAdmin)) {
+    if (!isLoginPage && !loading && (!user || !isAdmin)) {
       router.push("/admin");
     }
-  }, [user, isAdmin, loading, router]);
+  }, [user, isAdmin, loading, router, isLoginPage]);
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (

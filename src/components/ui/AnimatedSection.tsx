@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp, viewport } from "@/animations/variants";
-import { cn } from "@/lib/utils";
+import { viewport } from "@/animations/variants";
 import type { ReactNode } from "react";
 
 interface AnimatedSectionProps {

@@ -41,6 +41,11 @@ service cloud.firestore {
     }
 
     // ── Admin-only ────────────────────────────────────────────────────────────
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
     function isAdmin() {
       return request.auth != null &&
         exists(/databases/$(database)/documents/admins/$(request.auth.uid));

@@ -10,23 +10,27 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Input, Textarea } from "@/components/ui/FormFields";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { SOCIAL_LINKS } from "@/constants";
-import { staggerContainer, staggerItem, viewport } from "@/animations/variants";
 import {
-  RiMailLine, RiMapPinLine, RiGithubLine,
-  RiLinkedinBoxLine, RiTwitterXLine, RiSendPlaneLine,
-  RiCheckboxCircleLine, RiErrorWarningLine,
+  RiCheckboxCircleLine,
+  RiErrorWarningLine,
+  RiGithubLine,
+  RiLinkedinBoxLine,
+  RiMailLine,
+  RiMapPinLine,
+  RiSendPlaneLine,
+  RiTwitterXLine,
 } from "react-icons/ri";
 
 const INFO_CARDS = [
-  { icon: RiMailLine,   label: "Email",    value: SOCIAL_LINKS.email,    href: `mailto:${SOCIAL_LINKS.email}` },
-  { icon: RiMapPinLine, label: "Location", value: "Lagos, Nigeria",       href: undefined },
-  { icon: RiGithubLine, label: "GitHub",   value: "github.com/Niyi0904", href: SOCIAL_LINKS.github },
+  { icon: RiMailLine, label: "Email", value: SOCIAL_LINKS.email, href: `mailto:${SOCIAL_LINKS.email}` },
+  { icon: RiMapPinLine, label: "Location", value: "Lagos, Nigeria", href: undefined },
+  { icon: RiGithubLine, label: "GitHub", value: "github.com/Niyi0904", href: SOCIAL_LINKS.github },
 ];
 
 const SOCIAL = [
   { href: SOCIAL_LINKS.linkedin, icon: RiLinkedinBoxLine, label: "LinkedIn" },
-  { href: SOCIAL_LINKS.twitter,  icon: RiTwitterXLine,    label: "Twitter"  },
-  { href: SOCIAL_LINKS.github,   icon: RiGithubLine,      label: "GitHub"   },
+  { href: SOCIAL_LINKS.twitter, icon: RiTwitterXLine, label: "Twitter" },
+  { href: SOCIAL_LINKS.github, icon: RiGithubLine, label: "GitHub" },
 ];
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -46,10 +50,8 @@ export function ContactPageClient() {
   const onSubmit = async (data: ContactSchema) => {
     setStatus("loading");
     try {
-      // 1. Save to Firestore
       await contactService.send({ ...data });
 
-      // 2. Send email via API route
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,7 +69,6 @@ export function ContactPageClient() {
 
   return (
     <div>
-      {/* Header */}
       <section className="section gradient-hero">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
@@ -79,23 +80,21 @@ export function ContactPageClient() {
         </div>
       </section>
 
-      {/* Content */}
       <section className="section section-alt">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-
-            {/* Info column */}
             <AnimatedSection className="lg:col-span-2 space-y-6">
               <div>
                 <h2 className="font-display font-bold text-2xl text-heading mb-4">
                   Get In Touch
                 </h2>
                 <p className="text-body leading-relaxed">
-                  I'm currently open to new opportunities — freelance projects, full-time roles, and interesting collaborations. My inbox is always open.
+                  I&apos;m currently open to new opportunities - freelance projects,
+                  full-time roles, and interesting collaborations. My inbox is
+                  always open.
                 </p>
               </div>
 
-              {/* Info cards */}
               <div className="space-y-4">
                 {INFO_CARDS.map(({ icon: Icon, label, value, href }) => (
                   <div key={label} className="card p-4 flex items-center gap-4">
@@ -105,9 +104,12 @@ export function ContactPageClient() {
                     <div>
                       <p className="text-xs text-muted font-medium">{label}</p>
                       {href ? (
-                        <a href={href} target={href.startsWith("http") ? "_blank" : undefined}
+                        <a
+                          href={href}
+                          target={href.startsWith("http") ? "_blank" : undefined}
                           rel="noopener noreferrer"
-                          className="text-sm font-semibold text-heading hover:text-primary transition-colors">
+                          className="text-sm font-semibold text-heading hover:text-primary transition-colors"
+                        >
                           {value}
                         </a>
                       ) : (
@@ -118,13 +120,20 @@ export function ContactPageClient() {
                 ))}
               </div>
 
-              {/* Social links */}
               <div>
-                <p className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">Find me on</p>
+                <p className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">
+                  Find me on
+                </p>
                 <div className="flex gap-3">
                   {SOCIAL.map(({ href, icon: Icon, label }) => (
-                    <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                      className="p-3 rounded-xl border border-border text-muted hover:text-primary hover:border-primary hover:bg-primary-light dark:hover:bg-primary/10 transition-all duration-200">
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="p-3 rounded-xl border border-border text-muted hover:text-primary hover:border-primary hover:bg-primary-light dark:hover:bg-primary/10 transition-all duration-200"
+                    >
                       <Icon className="w-5 h-5" />
                     </a>
                   ))}
@@ -132,7 +141,6 @@ export function ContactPageClient() {
               </div>
             </AnimatedSection>
 
-            {/* Form column */}
             <AnimatedSection delay={0.15} className="lg:col-span-3">
               <div className="card p-8">
                 {status === "success" ? (
@@ -142,10 +150,16 @@ export function ContactPageClient() {
                     className="text-center py-12"
                   >
                     <RiCheckboxCircleLine className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                    <h3 className="font-display font-bold text-2xl text-heading mb-2">Message Sent!</h3>
-                    <p className="text-muted mb-6">Thanks for reaching out. I'll get back to you within 24 hours.</p>
-                    <button onClick={() => setStatus("idle")}
-                      className="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark transition-all">
+                    <h3 className="font-display font-bold text-2xl text-heading mb-2">
+                      Message Sent!
+                    </h3>
+                    <p className="text-muted mb-6">
+                      Thanks for reaching out. I&apos;ll get back to you within 24 hours.
+                    </p>
+                    <button
+                      onClick={() => setStatus("idle")}
+                      className="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark transition-all"
+                    >
                       Send Another Message
                     </button>
                   </motion.div>
@@ -199,7 +213,7 @@ export function ContactPageClient() {
                       {status === "loading" ? (
                         <>
                           <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Sending…
+                          Sending...
                         </>
                       ) : (
                         <>
