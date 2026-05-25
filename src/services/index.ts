@@ -50,8 +50,18 @@ export const testimonialsService = {
 
   getFeatured: async () => {
     const items = await fetchCollection<Testimonial>("testimonials", [where("featured", "==", true)]);
-    return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    return items
+      .filter((item) => item.approved === true)
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   },
+
+  add: (data: Omit<Testimonial, "id" | "approved" | "featured" | "order">) =>
+    addDocument("testimonials", {
+      ...data,
+      approved: false,
+      featured: false,
+      order: 0,
+    }),
 };
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────

@@ -36,7 +36,8 @@ interface AdminCollectionPageProps<T extends AdminRecord> {
   collectionName: string;
   fields: AdminFieldConfig[];
   columns: AdminColumnConfig<T>[];
-  newItemLabel: string;
+  newItemLabel?: string;
+  canCreate?: boolean;
   emptyMessage?: string;
   sortBy?: string;
   sortDirection?: "asc" | "desc";
@@ -72,7 +73,8 @@ export function AdminCollectionPage<T extends AdminRecord>({
   collectionName,
   fields,
   columns,
-  newItemLabel,
+  newItemLabel = "New item",
+  canCreate = true,
   emptyMessage = "No records found.",
   sortBy = "order",
   sortDirection = "asc",
@@ -155,7 +157,7 @@ export function AdminCollectionPage<T extends AdminRecord>({
           <p className="text-slate-400 mt-1">{description}</p>
         </div>
 
-        {!formOpen && (
+        {!formOpen && canCreate && (
           <Button
             type="button"
             onClick={openNewForm}

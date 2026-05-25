@@ -11,6 +11,7 @@ const fields: AdminFieldConfig[] = [
   { name: "name", label: "Name", type: "text", required: true },
   { name: "role", label: "Role", type: "text", required: true },
   { name: "company", label: "Company", type: "text", required: true },
+  { name: "approved", label: "Approved", type: "checkbox", defaultValue: false },
   { name: "featured", label: "Featured", type: "checkbox", defaultValue: false },
   { name: "order", label: "Order", type: "number", defaultValue: 0 },
   { name: "avatarUrl", label: "Avatar", type: "image" },
@@ -21,6 +22,11 @@ const columns: AdminColumnConfig<AdminRecord>[] = [
   { key: "name", label: "Name" },
   { key: "role", label: "Role" },
   { key: "company", label: "Company" },
+  {
+    key: "approved",
+    label: "Approved",
+    render: (item) => (item.approved ? "Yes" : "No"),
+  },
   {
     key: "featured",
     label: "Featured",
@@ -36,7 +42,7 @@ export default function AdminTestimonialsPage() {
       collectionName="testimonials"
       fields={fields}
       columns={columns}
-      newItemLabel="New testimonial"
+      canCreate={false}
       emptyMessage="No testimonials yet."
       sortBy="order"
     />

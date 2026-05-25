@@ -62,8 +62,10 @@ export interface Testimonial {
   company: string;
   quote: string;
   avatarUrl?: string;
+  approved?: boolean;
   featured: boolean;
   order: number;
+  createdAt?: string;
 }
 
 // ─── Blog Post ────────────────────────────────────────────────────────────────

@@ -63,10 +63,8 @@ export function Header() {
                 >
                   {item.label}
                   {isActive && (
-                    <motion.span
-                      layoutId="nav-active"
-                      className="absolute inset-0 rounded-lg bg-primary-light dark:bg-primary/15 -z-10"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    <span
+                      className="absolute inset-0 rounded-lg bg-primary-light dark:bg-primary/15 -z-10 transition-opacity duration-200"
                     />
                   )}
                 </Link>
